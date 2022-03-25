@@ -2,7 +2,8 @@
 
 DIR=$(dirname "$0")
 
-sudo pacman -S --needed base-devel git
+# Dependencies (including optional) for paru
+sudo pacman -S --needed base-devel git asp bat devtools
 
 if ! pacman -Qi paru > /dev/null; then
     echo "Installing paru"
