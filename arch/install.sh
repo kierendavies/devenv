@@ -2,8 +2,8 @@
 
 DIR=$(dirname "$0")
 
-# Dependencies (including optional) for paru
-sudo pacman -S --needed base-devel git asp bat devtools
+echo "Updating package repos and installing base packages"
+sudo pacman -Sy --needed base-devel git
 
 if ! pacman -Qi paru > /dev/null; then
     echo "Installing paru"
@@ -24,4 +24,5 @@ if ! pacman -Qi paru > /dev/null; then
     popd
 fi
 
-paru -Sy --needed - < $DIR/pkglist.txt
+echo "Installing packages"
+paru -S --needed - < $DIR/pkglist.txt
