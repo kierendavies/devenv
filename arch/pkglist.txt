@@ -2,3 +2,4 @@ bat
 curl
 fish
 stow
+thefuck
