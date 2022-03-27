@@ -1,5 +1,6 @@
 curl
 fish
+fzf
 git
 grc
 stow
