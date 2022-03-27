@@ -25,10 +25,13 @@ STOW_PACKAGES=(
 DIR=$(dirname "$0")
 
 if [ -z "$XDG_CACHE_HOME" ]; then
-    export XDG_CACHE_HOME="$HOME/.cache"
+    XDG_CACHE_HOME="$HOME/.cache"
+fi
+if [ -z "$XDG_CONFIG_HOME" ]; then
+    XDG_CONFIG_HOME="$HOME/.config"
 fi
 if [ -z "$XDG_DATA_HOME" ]; then
-    export XDG_DATA_HOME="$HOME/.local/share"
+    XDG_DATA_HOME="$HOME/.local/share"
 fi
 
 OS_ID=$(grep '^ID=' /etc/os-release | cut -d= -f2)
@@ -79,8 +82,15 @@ done
 
 if [ ! -d "$XDG_DATA_HOME/omf" ]; then
     echo "Installing oh-my-fish"
-    OMF_INSTALL="$XDG_CACHE_HOME/devenv/omf_install"
+    OMF_INSTALL="$XDG_CACHE_HOME/devenv/omf_install.fish"
     mkdir -p "$(dirname "$OMF_INSTALL")"
     curl -o "$OMF_INSTALL" -C - https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
     fish -P "$OMF_INSTALL" --noninteractive
+fi
+
+if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
+    echo "Installing Fisher"
+    FISHER_INSTALL="$XDG_CACHE_HOME/devenv/fisher_install.fish"
+    curl -o "$FISHER_INSTALL" -C - -L https://git.io/fisher
+    fish -c "source \"$FISHER_INSTALL\" && fisher install jorgebucaran/fisher"
 fi
