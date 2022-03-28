@@ -78,7 +78,7 @@ fi
 
 for pkg in "${STOW_PACKAGES[@]}"; do
     echo "Linking dotfiles for $pkg"
-    stow -t "$HOME" -d "$DIR/dotfiles" "$pkg"
+    stow -t "$HOME" -d "$DIR/dotfiles" -R "$pkg"
 done
 
 if [ ! -d "$XDG_DATA_HOME/omf" ]; then
