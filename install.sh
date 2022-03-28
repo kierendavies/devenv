@@ -20,7 +20,7 @@ ARCH_PACKAGES=(
 
 STOW_PACKAGES=(
     fish
-    vim
+    nvim
 )
 
 DIR=$(dirname "$0")
@@ -64,7 +64,7 @@ ubuntu)
     if [ ! -x "$(command -v starship)" ]; then
         echo "Installing starship"
         # Snap doesn't work on WSL :(
-        curl -sS https://starship.rs/install.sh | sh -s -- --yes
+        curl -fsS https://starship.rs/install.sh | sh -s -- --yes
     fi
     ;;
 esac
@@ -85,16 +85,26 @@ if [ ! -d "$XDG_DATA_HOME/omf" ]; then
     echo "Installing oh-my-fish"
     OMF_INSTALL="$XDG_CACHE_HOME/devenv/omf_install.fish"
     mkdir -p "$(dirname "$OMF_INSTALL")"
-    curl -o "$OMF_INSTALL" -C - https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
+    curl -fo "$OMF_INSTALL" -C - https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
     fish -P "$OMF_INSTALL" --noninteractive
 fi
 
 if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
     echo "Installing Fisher"
     FISHER_INSTALL="$XDG_CACHE_HOME/devenv/fisher_install.fish"
-    curl -o "$FISHER_INSTALL" -C - -L https://git.io/fisher
+    curl -fo "$FISHER_INSTALL" -C - -L https://git.io/fisher
     fish -c "source \"$FISHER_INSTALL\" && fisher install jorgebucaran/fisher"
 fi
 
-echo "Updating Fisher plugins"
+echo "Installing Fisher plugins"
 fish -c "fisher update"
+
+NVIM_AUTOLOAD_DIR="$XDG_DATA_HOME/nvim/site/autoload"
+if [ ! -f "$NVIM_AUTOLOAD_DIR/plug.vim" ]; then
+    echo "Installing vim-plug"
+    mkdir -p "$NVIM_AUTOLOAD_DIR"
+    curl -fo "$NVIM_AUTOLOAD_DIR/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+echo "Installing Vim plugins"
+nvim +PlugUpgrade +PlugUpdate +qall
