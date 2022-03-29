@@ -11,7 +11,7 @@ COMMON_SYSTEM_PACKAGES=(
     grc
     stow
     thefuck
-    vim
+    neovim
 )
 
 STOW_PACKAGES=(
