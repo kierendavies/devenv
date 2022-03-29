@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
 COMMON_SYSTEM_PACKAGES=(
     ack
@@ -22,15 +22,9 @@ STOW_PACKAGES=(
 
 DIR=$(dirname "$0")
 
-if [ -z "$XDG_CACHE_HOME" ]; then
-    XDG_CACHE_HOME="$HOME/.cache"
-fi
-if [ -z "$XDG_CONFIG_HOME" ]; then
-    XDG_CONFIG_HOME="$HOME/.config"
-fi
-if [ -z "$XDG_DATA_HOME" ]; then
-    XDG_DATA_HOME="$HOME/.local/share"
-fi
+: "${XDG_CACHE_HOME:="$HOME/.cache"}"
+: "${XDG_CONFIG_HOME:="$HOME/.config"}"
+: "${XDG_DATA_HOME:="$HOME/.local/share"}"
 
 OS_ID=$(grep '^ID=' /etc/os-release | cut -d= -f2)
 echo "Detected OS: $OS_ID"
