@@ -56,6 +56,7 @@ arch)
 ubuntu)
     sudo add-apt-repository -y ppa:fish-shell/release-3
     sudo apt update
+    sudo apt install -y build-essential
     sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}"
     ;;
 esac
@@ -69,21 +70,21 @@ fi
 
 for pkg in "${STOW_PACKAGES[@]}"; do
     echo "Linking dotfiles for $pkg"
-    stow -t "$HOME" -d "$DIR/dotfiles" -R "$pkg"
+    stow --no-folding -t "$HOME" -d "$DIR/dotfiles" -R "$pkg"
 done
 
 if [ ! -d "$XDG_DATA_HOME/omf" ]; then
     echo "Installing oh-my-fish"
     OMF_INSTALL="$XDG_CACHE_HOME/devenv/omf_install.fish"
     mkdir -p "$(dirname "$OMF_INSTALL")"
-    curl -fo "$OMF_INSTALL" -C - https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
+    curl -fo "$OMF_INSTALL" - https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
     fish -P "$OMF_INSTALL" --noninteractive
 fi
 
 if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
     echo "Installing Fisher"
     FISHER_INSTALL="$XDG_CACHE_HOME/devenv/fisher_install.fish"
-    curl -fo "$FISHER_INSTALL" -C - -L https://git.io/fisher
+    curl -fo "$FISHER_INSTALL" -L https://git.io/fisher
     fish -c "source \"$FISHER_INSTALL\" && fisher install jorgebucaran/fisher"
 fi
 
