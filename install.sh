@@ -53,7 +53,7 @@ DIR=$(dirname "$0")
 CACHE_DIR="$XDG_CACHE_HOME/devenv"
 mkdir -p "$CACHE_DIR"
 
-OS_ID=$(grep '^ID=' /etc/os-release | cut -d= -f2)
+OS_ID=$(grep '^ID=' /etc/os-release | cut -d = -f 2)
 echo "Detected OS: $OS_ID"
 
 echo "Installing system packages"
@@ -82,12 +82,13 @@ ubuntu)
         sudo add-apt-repository -y $PPA
     done
 
-    NODEJS_VERSION=$(dpkg-query -f '${Version}' -W nodejs)
+    sudo apt-get update
+
+    NODEJS_VERSION=$(apt-cache show nodejs | grep '^Version:' | cut -d " " -f 2)
     if dpkg --compare-versions $NODEJS_VERSION lt 17; then
         curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
     fi
 
-    sudo apt-get update
     sudo apt-get install -y build-essential
 
     if dpkg --compare-versions $RELEASE lt 20.10; then
