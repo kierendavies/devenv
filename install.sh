@@ -72,7 +72,7 @@ arch)
     paru -S --needed "${COMMON_SYSTEM_PACKAGES[@]}"
     ;;
 ubuntu)
-    for $PPA in $UBUNTU_PPAS; do
+    for PPA in $UBUNTU_PPAS; do
         sudo add-apt-repository -y $PPA
     done
     curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
@@ -81,7 +81,7 @@ ubuntu)
     sudo apt install -y build-essential
     sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}" "${UBUNTU_APT_PACKAGES[@]}"
 
-    for $DEB_URL in $UBUNTU_DEBS; do
+    for DEB_URL in $UBUNTU_DEBS; do
         DEB_DIR="$XDG_CACHE_HOME/devenv/"
         DEB_NAME=$(curl -f --output-dir "$DEB_DIR" -O -w "%{filename_effective}" "$DEB_URL")
         sudo dpkg -i "$DEB_DIR/$DEB_NAME"
