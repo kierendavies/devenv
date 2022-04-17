@@ -87,15 +87,15 @@ ubuntu)
         curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
     fi
 
-    sudo apt update
-    sudo apt install -y build-essential
+    sudo apt-get update
+    sudo apt-get install -y build-essential
 
     if dpkg --compare-versions $RELEASE lt 20.10; then
         # Workaround for https://askubuntu.com/a/1300824
-        sudo apt install -o Dpkg::Options::="--force-overwrite" bat
+        sudo apt-get install -o Dpkg::Options::="--force-overwrite" bat
     fi
 
-    sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}" "${UBUNTU_APT_PACKAGES[@]}"
+    sudo apt-get install -y "${COMMON_SYSTEM_PACKAGES[@]}" "${UBUNTU_APT_PACKAGES[@]}"
 
     # Ubuntu 20.04 has curl v7.68 which doesn't support --output-dir :(
     pushd "$CACHE_DIR"
