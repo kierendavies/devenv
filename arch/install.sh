@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 DIR=$(dirname "$0")
 
 echo "Updating package repos and installing base packages"
