@@ -10,6 +10,7 @@ COMMON_SYSTEM_PACKAGES=(
     grc
     stow
     thefuck
+    vim
 )
 
 ARCH_PACKAGES=(
@@ -18,6 +19,7 @@ ARCH_PACKAGES=(
 
 STOW_PACKAGES=(
     fish
+    vim
 )
 
 DIR=$(dirname "$0")
