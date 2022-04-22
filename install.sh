@@ -146,4 +146,4 @@ if [ ! -f "$NVIM_AUTOLOAD_DIR/plug.vim" ]; then
 fi
 
 echo "Installing Vim plugins"
-nvim +PlugUpgrade +PlugUpdate +qall
+nvim --headless +PlugUpgrade +PlugUpdate +qall
