@@ -32,8 +32,7 @@ UBUNTU_APT_PACKAGES=(
     fonts-twemoji-svginot
 )
 
-declare -A UBUNTU_DEBS
-UBUNTU_DEBS=(
+declare -A UBUNTU_DEBS=(
     [lsd]="https://github.com/Peltoche/lsd/releases/download/0.21.0/lsd_0.21.0_amd64.deb"
 )
 
