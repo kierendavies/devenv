@@ -28,6 +28,11 @@ if [ "$DEFAULT_SHELL" != "/usr/bin/fish" ]; then
     chsh -s /usr/bin/fish
 fi
 
+for pkg in "${STOW_PACKAGES[@]}"; do
+    echo "Linking dotfiles for $pkg"
+    stow -t "$HOME" -d "$DIR/dotfiles" "$pkg"
+done
+
 if [ ! -d "$XDG_DATA_HOME/omf" ]; then
     echo "Installing oh-my-fish"
     OMF_INSTALL="$XDG_CACHE_HOME/devenv/omf_install"
@@ -35,8 +40,3 @@ if [ ! -d "$XDG_DATA_HOME/omf" ]; then
     curl -o "$OMF_INSTALL" -C - https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
     fish -P "$OMF_INSTALL" --noninteractive
 fi
-
-for pkg in "${STOW_PACKAGES[@]}"; do
-    echo "Linking dotfiles for $pkg"
-    stow -t "$HOME" -d "$DIR/dotfiles" -R "$pkg"
-done
