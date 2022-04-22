@@ -78,7 +78,7 @@ arch)
 ubuntu)
     RELEASE=$(lsb_release -rs)
 
-    for PPA in $UBUNTU_PPAS; do
+    for PPA in "${UBUNTU_PPAS[@]}"; do
         sudo add-apt-repository -y $PPA
     done
 
