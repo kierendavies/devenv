@@ -1,0 +1,17 @@
+[core]
+    editor = nvim
+
+[pull]
+    ff = only
+
+[user]
+    useConfigOnly = true
+
+[include]
+    path = alias.conf
+    path = user.conf
+
+    # Enable environment-specific overrides, e.g. to use a work email address,
+    # without modifying any versioned files. This must be the last declaration
+    # in this file.
+    path = override.conf

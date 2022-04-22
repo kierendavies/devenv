@@ -39,6 +39,7 @@ declare -A UBUNTU_DEBS=(
 STOW_PACKAGES=(
     fish
     fonts
+    git
     nvim
     x
 )

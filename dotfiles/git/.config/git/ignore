@@ -1,0 +1,13 @@
+# Visual Studio Code
+*.code-workspace
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+
+# Scala
+.ammonite/
+.bloop/
+.bsp/
+.metals/
+**/project/metals.sbt
