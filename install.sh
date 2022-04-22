@@ -93,7 +93,7 @@ ubuntu)
 
     if dpkg --compare-versions $RELEASE lt 20.10; then
         # Workaround for https://askubuntu.com/a/1300824
-        sudo apt-get install -o Dpkg::Options::="--force-overwrite" bat
+        sudo apt-get install -y -o Dpkg::Options::="--force-overwrite" bat
     fi
 
     sudo apt-get install -y "${COMMON_SYSTEM_PACKAGES[@]}" "${UBUNTU_APT_PACKAGES[@]}"
