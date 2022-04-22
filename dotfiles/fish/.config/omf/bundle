@@ -3,5 +3,4 @@ package expand
 package grc
 package marlin
 package thefuck
-package z
 theme default

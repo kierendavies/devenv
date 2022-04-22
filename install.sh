@@ -94,3 +94,6 @@ if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
     curl -o "$FISHER_INSTALL" -C - -L https://git.io/fisher
     fish -c "source \"$FISHER_INSTALL\" && fisher install jorgebucaran/fisher"
 fi
+
+echo "Updating Fisher plugins"
+fish -c "fisher update"
