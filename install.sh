@@ -15,8 +15,25 @@ COMMON_SYSTEM_PACKAGES=(
     nodejs
 )
 
+ARCH_PACKAGES=(
+    noto-fonts
+    ttf-twemoji
+    ttf-twemoji-color
+)
+
+UBUNTU_PPAS=(
+    ppa:eosrei/fonts
+    ppa:fish-shell/release-3
+)
+
+UBUNTU_APT_PACKAGES=(
+    fonts-noto
+    fonts-twemoji-svginot
+)
+
 STOW_PACKAGES=(
     fish
+    fonts
     nvim
 )
 
@@ -49,12 +66,14 @@ arch)
     paru -S --needed "${COMMON_SYSTEM_PACKAGES[@]}"
     ;;
 ubuntu)
-    sudo add-apt-repository -y ppa:fish-shell/release-3
+    for $PPA in $UBUNTU_PPAS; do
+        sudo add-apt-repository -y $PPA
+    done
     curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 
     sudo apt update
     sudo apt install -y build-essential
-    sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}"
+    sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}" "${UBUNTU_APT_PACKAGES[@]}"
     ;;
 esac
 
@@ -74,7 +93,7 @@ if [ ! -d "$XDG_DATA_HOME/omf" ]; then
     echo "Installing oh-my-fish"
     OMF_INSTALL="$XDG_CACHE_HOME/devenv/omf_install.fish"
     mkdir -p "$(dirname "$OMF_INSTALL")"
-    curl -fo "$OMF_INSTALL" - https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
+    curl -fo "$OMF_INSTALL" https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
     fish -P "$OMF_INSTALL" --noninteractive
 fi
 
