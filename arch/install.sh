@@ -26,3 +26,10 @@ fi
 
 echo "Installing packages"
 paru -S --needed - < $DIR/pkglist.txt
+
+# Don't use $SHELL because it is only updated at next login
+DEFAULT_SHELL=$(getent passwd $(id -un) | cut -d : -f 7-)
+if [ "$DEFAULT_SHELL" != "/usr/bin/fish" ]; then
+    # chsh already prints a message
+    chsh -s /usr/bin/fish
+fi
