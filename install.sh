@@ -12,6 +12,10 @@ COMMON_SYSTEM_PACKAGES=(
     thefuck
 )
 
+ARCH_PACKAGES=(
+    starship
+)
+
 STOW_PACKAGES=(
     fish
 )
@@ -50,6 +54,12 @@ arch)
 ubuntu)
     sudo apt update
     sudo apt install -y ${COMMON_SYSTEM_PACKAGES[@]}
+
+    if [ ! -x "$(command -v starship)" ]; then
+        echo "Installing starship"
+        # Snap doesn't work on WSL :(
+        curl -sS https://starship.rs/install.sh | sh -s -- --yes
+    fi
     ;;
 esac
 
