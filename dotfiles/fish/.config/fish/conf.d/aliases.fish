@@ -9,3 +9,4 @@ end
 
 # Shortcuts
 alias ll 'ls -lAh' # Default doesn't do -A
+command -q nvim; and alias vim nvim
