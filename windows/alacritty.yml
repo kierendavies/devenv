@@ -1,0 +1,7 @@
+font:
+  normal:
+    family: Hack NF
+  size: 12
+
+shell:
+  program: "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
