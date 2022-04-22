@@ -40,6 +40,7 @@ STOW_PACKAGES=(
     fish
     fonts
     nvim
+    x
 )
 
 DIR=$(dirname "$0")
