@@ -3,6 +3,7 @@
 set -e
 
 COMMON_SYSTEM_PACKAGES=(
+    ack
     bat
     curl
     fish
