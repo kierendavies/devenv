@@ -78,15 +78,12 @@ if [ ! -d "$XDG_DATA_HOME/omf" ]; then
     fish -P "$OMF_INSTALL" --noninteractive
 fi
 
-if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
-    echo "Installing Fisher"
-    FISHER_INSTALL="$XDG_CACHE_HOME/devenv/fisher_install.fish"
+echo "Installing Fisher and plugins"
+FISHER_INSTALL="$XDG_CACHE_HOME/devenv/fisher_install.fish"
+if [ ! -f "$FISHER_INSTALL" ]; then
     curl -fo "$FISHER_INSTALL" -L https://git.io/fisher
-    fish -c "source \"$FISHER_INSTALL\" && fisher install jorgebucaran/fisher"
 fi
-
-echo "Installing Fisher plugins"
-fish -c "fisher update"
+fish -c "source \"$FISHER_INSTALL\" && fisher update"
 
 NVIM_AUTOLOAD_DIR="$XDG_DATA_HOME/nvim/site/autoload"
 if [ ! -f "$NVIM_AUTOLOAD_DIR/plug.vim" ]; then
