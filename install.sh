@@ -16,6 +16,7 @@ COMMON_SYSTEM_PACKAGES=(
 )
 
 ARCH_PACKAGES=(
+    lsd
     noto-fonts
     ttf-twemoji
     ttf-twemoji-color
@@ -29,6 +30,10 @@ UBUNTU_PPAS=(
 UBUNTU_APT_PACKAGES=(
     fonts-noto
     fonts-twemoji-svginot
+)
+
+UBUNTU_DEBS=(
+    https://github.com/Peltoche/lsd/releases/download/0.21.0/lsd_0.21.0_amd64.deb
 )
 
 STOW_PACKAGES=(
@@ -74,6 +79,12 @@ ubuntu)
     sudo apt update
     sudo apt install -y build-essential
     sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}" "${UBUNTU_APT_PACKAGES[@]}"
+
+    for $DEB_URL in $UBUNTU_DEBS; do
+        DEB_DIR="$XDG_CACHE_HOME/devenv/"
+        DEB_NAME=$(curl -f --output-dir "$DEB_DIR" -O -w "%{filename_effective}" "$DEB_URL")
+        sudo dpkg -i "$DEB_DIR/$DEB_NAME"
+    done
     ;;
 esac
 
