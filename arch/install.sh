@@ -23,3 +23,5 @@ if ! pacman -Qi paru > /dev/null; then
     makepkg -sic
     popd
 fi
+
+paru -Sy --needed - < $DIR/pkglist.txt
