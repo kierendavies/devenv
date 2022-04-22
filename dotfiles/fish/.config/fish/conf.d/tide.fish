@@ -11,7 +11,7 @@ set -U tide_right_prompt_frame_enabled false
 
 # The rest copied from ~/.config/tide/functions/tide/configure/configs/rainbow.fish
 set -U tide_character_bg_color normal
-set -U tide_character_color $_tide_color_green
+set -U tide_character_color 5FD700
 set -U tide_character_color_failure FF0000
 set -U tide_character_icon '❯'
 set -U tide_character_vi_icon_default '❮'
@@ -28,7 +28,7 @@ set -U tide_cmd_duration_threshold 3000
 set -U tide_context_always_display false
 set -U tide_context_bg_color 444444
 set -U tide_context_color_default D7AF87
-set -U tide_context_color_root $_tide_color_gold
+set -U tide_context_color_root D7AF00
 set -U tide_context_color_ssh D7AF87
 set -U tide_git_bg_color 4E9A06
 set -U tide_git_bg_color_unstable C4A000
