@@ -1,5 +1,6 @@
 curl
 fish
 git
+grc
 stow
 thefuck
