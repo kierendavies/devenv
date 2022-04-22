@@ -54,6 +54,7 @@ arch)
     paru -S --needed "${COMMON_SYSTEM_PACKAGES[@]}"
     ;;
 ubuntu)
+    sudo add-apt-repository -y ppa:fish-shell/release-3
     sudo apt update
     sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}"
     ;;
