@@ -12,6 +12,7 @@ COMMON_SYSTEM_PACKAGES=(
     stow
     thefuck
     neovim
+    nodejs
 )
 
 STOW_PACKAGES=(
@@ -55,6 +56,8 @@ arch)
     ;;
 ubuntu)
     sudo add-apt-repository -y ppa:fish-shell/release-3
+    curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+
     sudo apt update
     sudo apt install -y build-essential
     sudo apt install -y "${COMMON_SYSTEM_PACKAGES[@]}"
