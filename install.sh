@@ -121,7 +121,7 @@ fi
 
 for PKG in "${STOW_PACKAGES[@]}"; do
     echo "Linking dotfiles for $PKG"
-    stow --no-folding -t "$HOME" -d "$DIR/dotfiles" -R "$PKG"
+    stow --no-folding -t "$HOME" -d "$DIR/stow" -R "$PKG"
 done
 
 if [ ! -d "$XDG_DATA_HOME/omf" ]; then
