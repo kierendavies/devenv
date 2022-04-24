@@ -10,7 +10,8 @@ process {
         'Alacritty.Alacritty',
         'Canonical.Ubuntu',
         'Git.Git',
-        'Microsoft.PowerShell'
+        'Microsoft.PowerShell',
+        'VSCodium.VSCodium'
     )
     foreach ($pkg in $packages) {
         $out = winget list --exact --id $pkg
