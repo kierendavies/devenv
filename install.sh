@@ -84,7 +84,7 @@ ubuntu)
 
     sudo apt-get update
 
-    NODEJS_VERSION=$(apt-cache show nodejs | grep '^Version:' | cut -d " " -f 2)
+    NODEJS_VERSION=$(apt-cache show --no-all-versions nodejs | grep '^Version:' | cut -d " " -f 2)
     if dpkg --compare-versions $NODEJS_VERSION lt 17; then
         curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
     fi
