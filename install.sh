@@ -2,6 +2,42 @@
 
 set -euxo pipefail
 
+if [ -z "${DEVENV_OS:-}" ]; then
+    DEVENV_OS=$(grep '^ID=' /etc/os-release | cut -d = -f 2)
+fi
+if [ -z "$DEVENV_OS" ]; then
+    echo "Couldn't detect OS"
+    exit 1
+fi
+echo "Detected OS: $DEVENV_OS"
+
+# Environment-specific defaults
+if [ -z "${DEVENV_ENV:-}" ]; then
+    if [ -n "${GITPOD_WORKSPACE_ID:-}" ]; then # GitPod
+        DEVENV_ENV=gitpod
+    elif uname -a | grep -q microsoft; then # WSL
+        DEVENV_ENV=wsl
+    else
+        DEVENV_ENV=default
+    fi
+fi
+echo "Detected env: $DEVENV_ENV"
+case "$DEVENV_ENV" in
+gitpod)
+    DEVENV_ENABLE_FONTS=${DEVENV_ENABLE_FONTS:-0}
+    DEVENV_ENABLE_NODEJS=${DEVENV_ENABLE_NODEJS:-0}
+    DEVENV_ENABLE_NVIM=${DEVENV_ENABLE_NVIM:-0}
+    ;;
+wsl)
+    DEVENV_ENABLE_FONTS=${DEVENV_ENABLE_FONTS:-0}
+    ;;
+esac
+
+# Fallback defaults
+DEVENV_ENABLE_FONTS=${DEVENV_ENABLE_FONTS:-1}
+DEVENV_ENABLE_NODEJS=${DEVENV_ENABLE_NODEJS:-1}
+DEVENV_ENABLE_NVIM=${DEVENV_ENABLE_NVIM:-1}
+
 COMMON_SYSTEM_PACKAGES=(
     ack
     bat
@@ -11,26 +47,17 @@ COMMON_SYSTEM_PACKAGES=(
     grc
     stow
     thefuck
-    neovim
-    nodejs
 )
 
 ARCH_PACKAGES=(
     lsd
-    noto-fonts
-    ttf-twemoji
-    ttf-twemoji-color
 )
 
 UBUNTU_PPAS=(
-    ppa:eosrei/fonts
     ppa:fish-shell/release-3
 )
 
-UBUNTU_APT_PACKAGES=(
-    fonts-noto
-    fonts-twemoji-svginot
-)
+UBUNTU_APT_PACKAGES=()
 
 declare -A UBUNTU_DEBS=(
     [lsd]="https://github.com/Peltoche/lsd/releases/download/0.21.0/lsd_0.21.0_amd64.deb"
@@ -38,26 +65,42 @@ declare -A UBUNTU_DEBS=(
 
 STOW_PACKAGES=(
     fish
-    fonts
     git
-    nvim
     x
 )
 
-DIR=$(dirname "$0")
+if [ "$DEVENV_ENABLE_FONTS" = 1 ]; then
+    ARCH_PACKAGES+=(
+        noto-fonts
+        ttf-twemoji
+        ttf-twemoji-color
+    )
+    UBUNTU_PPAS+=(
+        ppa:eosrei/fonts
+    )
+    UBUNTU_APT_PACKAGES+=(
+        fonts-noto
+        fonts-twemoji-svginot
+    )
+    STOW_PACKAGES+=(fonts)
+fi
 
-DEVENV_CACHE_DIR="${XDG_CACHE_HOME:-"$HOME/.cache"}/devenv"
+if [ "$DEVENV_ENABLE_NODEJS" = 1 ]; then
+    COMMON_SYSTEM_PACKAGES+=(nodejs)
+fi
+
+if [ "$DEVENV_ENABLE_NVIM" = 1 ]; then
+    COMMON_SYSTEM_PACKAGES+=(neovim)
+    STOW_PACKAGES+=(nvim)
+fi
+
+DEVENV_CACHE_DIR="${DEVENV_CACHE_DIR:-${XDG_CACHE_HOME:-"$HOME/.cache"}/devenv}"
 mkdir -p "$DEVENV_CACHE_DIR"
 
-export DEVENV_OS_ID=$(grep '^ID=' /etc/os-release | cut -d = -f 2)
-if [ -z "$DEVENV_OS_ID" ]; then
-    echo "Couldn't detect OS"
-    exit 1
-fi
-echo "Detected OS: $DEVENV_OS_ID"
+DIR=$(dirname "$0")
 
 echo "Installing system packages"
-case $DEVENV_OS_ID in
+case $DEVENV_OS in
 arch)
     sudo pacman -Sy --needed base-devel git
 
@@ -84,9 +127,11 @@ ubuntu)
 
     sudo apt-get update
 
-    NODEJS_VERSION=$(apt-cache show --no-all-versions nodejs | grep '^Version:' | cut -d " " -f 2)
-    if dpkg --compare-versions $NODEJS_VERSION lt 17; then
-        curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    if [ "$DEVENV_ENABLE_NODEJS" = 1 ]; then
+        NODEJS_VERSION=$(apt-cache show --no-all-versions nodejs | grep '^Version:' | cut -d " " -f 2)
+        if dpkg --compare-versions $NODEJS_VERSION lt 17; then
+            curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+        fi
     fi
 
     sudo apt-get install -y build-essential
@@ -142,12 +187,14 @@ if ! fish -c "type -q fisher"; then
 fi
 fish -c "fisher update"
 
-NVIM_AUTOLOAD_DIR="${XDG_DATA_HOME:-"$HOME/.local/share"}/nvim/site/autoload"
-if [ ! -f "$NVIM_AUTOLOAD_DIR/plug.vim" ]; then
-    echo "Installing vim-plug"
-    mkdir -p "$NVIM_AUTOLOAD_DIR"
-    curl -fo "$NVIM_AUTOLOAD_DIR/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
+if [ "$DEVENV_ENABLE_NVIM" = 1 ]; then
+    NVIM_AUTOLOAD_DIR="${XDG_DATA_HOME:-"$HOME/.local/share"}/nvim/site/autoload"
+    if [ ! -f "$NVIM_AUTOLOAD_DIR/plug.vim" ]; then
+        echo "Installing vim-plug"
+        mkdir -p "$NVIM_AUTOLOAD_DIR"
+        curl -fo "$NVIM_AUTOLOAD_DIR/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    fi
 
-echo "Installing Vim plugins"
-nvim --headless +PlugUpgrade +PlugUpdate +qall
+    echo "Installing Vim plugins"
+    nvim --headless +PlugUpgrade +PlugUpdate +qall
+fi
