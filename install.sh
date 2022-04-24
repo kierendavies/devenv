@@ -46,24 +46,24 @@ STOW_PACKAGES=(
 
 DIR=$(dirname "$0")
 
-: "${XDG_CACHE_HOME:="$HOME/.cache"}"
-: "${XDG_CONFIG_HOME:="$HOME/.config"}"
-: "${XDG_DATA_HOME:="$HOME/.local/share"}"
+DEVENV_CACHE_DIR="${XDG_CACHE_HOME:-"$HOME/.cache"}/devenv"
+mkdir -p "$DEVENV_CACHE_DIR"
 
-CACHE_DIR="$XDG_CACHE_HOME/devenv"
-mkdir -p "$CACHE_DIR"
-
-OS_ID=$(grep '^ID=' /etc/os-release | cut -d = -f 2)
-echo "Detected OS: $OS_ID"
+export DEVENV_OS_ID=$(grep '^ID=' /etc/os-release | cut -d = -f 2)
+if [ -z "$DEVENV_OS_ID" ]; then
+    echo "Couldn't detect OS"
+    exit 1
+fi
+echo "Detected OS: $DEVENV_OS_ID"
 
 echo "Installing system packages"
-case $OS_ID in
+case $DEVENV_OS_ID in
 arch)
     sudo pacman -Sy --needed base-devel git
 
     if ! pacman -Qi paru >/dev/null; then
         echo "Installing paru from AUR"
-        PARU_REPO_DIR="$XDG_CACHE_HOME/paru/clone/paru-bin"
+        PARU_REPO_DIR="${XDG_CACHE_HOME:-"$HOME/.cache"}/paru/clone/paru-bin"
         if [ ! -d "$PARU_REPO_DIR/.git" ]; then
             git clone https://aur.archlinux.org/paru-bin.git "$PARU_REPO_DIR"
         fi
@@ -99,7 +99,7 @@ ubuntu)
     sudo apt-get install -y "${COMMON_SYSTEM_PACKAGES[@]}" "${UBUNTU_APT_PACKAGES[@]}"
 
     # Ubuntu 20.04 has curl v7.68 which doesn't support --output-dir :(
-    pushd "$CACHE_DIR"
+    pushd "$DEVENV_CACHE_DIR"
     for PKG in "${!UBUNTU_DEBS[@]}"; do
         if ! dpkg -s $PKG >/dev/null 2>/dev/null; then
             DEB_URL="${UBUNTU_DEBS[$PKG]}"
@@ -124,22 +124,25 @@ for PKG in "${STOW_PACKAGES[@]}"; do
     stow --no-folding -t "$HOME" -d "$DIR/stow" -R "$PKG"
 done
 
-if [ ! -d "$XDG_DATA_HOME/omf" ]; then
+if ! fish -c "type -q omf"; then
     echo "Installing oh-my-fish"
-    OMF_INSTALL="$CACHE_DIR/omf_install.fish"
+    OMF_INSTALL="$DEVENV_CACHE_DIR/omf_install.fish"
     mkdir -p "$(dirname "$OMF_INSTALL")"
     curl -fo "$OMF_INSTALL" https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
     fish -P "$OMF_INSTALL" --noninteractive
 fi
 
-echo "Installing Fisher and plugins"
-FISHER_INSTALL="$CACHE_DIR/fisher_install.fish"
-if [ ! -f "$FISHER_INSTALL" ]; then
-    curl -fo "$FISHER_INSTALL" -L https://git.io/fisher
+if ! fish -c "type -q fisher"; then
+    echo "Installing Fisher"
+    FISHER_INSTALL="$DEVENV_CACHE_DIR/fisher_install.fish"
+    if [ ! -f "$FISHER_INSTALL" ]; then
+        curl -fo "$FISHER_INSTALL" -L https://git.io/fisher
+    fi
+    fish -c "source \"$FISHER_INSTALL\" && fisher install jorgebucaran/fisher"
 fi
-fish -c "source \"$FISHER_INSTALL\" && fisher update"
+fish -c "fisher update"
 
-NVIM_AUTOLOAD_DIR="$XDG_DATA_HOME/nvim/site/autoload"
+NVIM_AUTOLOAD_DIR="${XDG_DATA_HOME:-"$HOME/.local/share"}/nvim/site/autoload"
 if [ ! -f "$NVIM_AUTOLOAD_DIR/plug.vim" ]; then
     echo "Installing vim-plug"
     mkdir -p "$NVIM_AUTOLOAD_DIR"
