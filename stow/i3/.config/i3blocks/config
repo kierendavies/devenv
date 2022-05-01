@@ -1,0 +1,41 @@
+separator=true
+separator_block_width=30
+
+[music]
+icon=
+command=playerctl metadata --format '{{emoji(status)}} {{artist}} - {{title}}'
+interval=1
+
+# [notifications]
+# command=$HOME/.config/i3blocks/scripts/notifications.pl
+# interval=1
+
+[bluetooth]
+command=$HOME/.config/i3blocks/scripts/bluetooth.sh
+interval=1
+
+[volume]
+command=$HOME/.config/i3blocks/scripts/volume.pl
+interval=1
+signal=10
+
+[wifi]
+command=$HOME/.config/i3blocks/scripts/wifi.sh
+interface=wlan0
+interval=10
+
+[vpn]
+command=$HOME/.config/i3blocks/scripts/vpn.pl
+interval=1
+
+[battery]
+command=$HOME/.config/i3blocks/scripts/battery.pl
+interval=1
+
+[dunst]
+command=$HOME/.config/i3blocks/scripts/dunst.sh
+interval=1
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=1
