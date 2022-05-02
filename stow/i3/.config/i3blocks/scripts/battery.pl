@@ -12,7 +12,7 @@ my $percentage = $+{percentage};
 my $time_h = ($+{time_h} || 0) + 0;
 my $time_m = ($+{time_m} || 0) + 0;
 
-my $icon = '?';
+my $icon = '';
 my $colour = '#FFFFFF';
 if ($status eq 'Discharging') {
 	my @icons = qw(          );
