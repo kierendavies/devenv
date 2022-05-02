@@ -8,7 +8,8 @@ case "$(cat "/sys/class/net/$interface/operstate")" in
 up)
     icon=直
     ssid=$(iw dev "$interface" link | sed -nr 's/^\s*SSID: (.*)$/\1/p')
-    signal=$(iw dev "$interface" link | sed -nr 's/^\s*signal: (.*) dBm$/\1/p')
+    # Remove the space before dBm
+    signal=$(iw dev "$interface" link | sed -nr 's/^\s*signal: (.*) dBm$/\1/p')dBm
 
     if [[ $quality -ge -55 ]]; then
         colour="#00FF00"
