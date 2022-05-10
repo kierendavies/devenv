@@ -4,6 +4,10 @@
 [pull]
     ff = only
 
+[rebase]
+    autoSquash = true
+    autoStash = true
+
 [user]
     useConfigOnly = true
 
