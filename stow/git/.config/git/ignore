@@ -11,3 +11,5 @@
 .bsp/
 .metals/
 **/project/metals.sbt
+
+.dccache
