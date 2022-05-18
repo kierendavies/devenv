@@ -1,6 +1,9 @@
 [core]
     editor = nvim
 
+[diff]
+    algorithm=histogram
+
 [pull]
     ff = only
 
