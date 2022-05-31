@@ -1,1 +1,1 @@
-set -gx LESS "--mouse -R"
+set -gx LESS "-F --mouse -R"
