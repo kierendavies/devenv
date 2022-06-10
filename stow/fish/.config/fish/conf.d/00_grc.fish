@@ -3,7 +3,7 @@
 
 set -g grc_plugin_execs \
     blkid \
-    cat \
+    # cat \ # Alias to bat
     cvs \
     df \
     diff \
@@ -28,7 +28,7 @@ set -g grc_plugin_execs \
     journalctl \
     kubectl \
     last \
-    # ls \ # Alias to lsd instead
+    # ls \ # Alias to lsd
     lsattr \
     lsblk \
     lsmod \
