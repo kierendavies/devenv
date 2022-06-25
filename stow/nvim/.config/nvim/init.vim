@@ -33,6 +33,9 @@ set number
 
 set mouse=a
 
+set foldmethod=syntax
+set foldlevelstart=10
+
 let mapleader=','
 
 nmap <silent> <A-Up> :wincmd k<CR>
