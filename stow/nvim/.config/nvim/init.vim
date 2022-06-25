@@ -1,5 +1,6 @@
 call plug#begin()
 Plug 'airblade/vim-gitgutter'
+Plug 'bfrg/vim-jq'
 Plug 'frazrepo/vim-rainbow'
 Plug 'GEverding/vim-hocon'
 Plug 'godlygeek/tabular'
@@ -70,6 +71,9 @@ let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
+
+let g:jq_highlight_function_calls = 1
+let g:jq_highlight_objects = 1
 
 let g:pencil#wrapModeDefault = 'soft'
 let g:airline_section_x = '%{PencilMode()}'
