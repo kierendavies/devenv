@@ -62,3 +62,10 @@ inoremap <silent><expr> <Tab>
   \ pumvisible() ? coc#_select_confirm() :
   \ <SID>check_back_space() ? "\<Tab>" :
   \ coc#refresh()
+
+let g:pencil#wrapModeDefault = 'soft'
+let g:airline_section_x = '%{PencilMode()}'
+augroup pencil
+  autocmd!
+  autocmd FileType markdown call pencil#init()
+augroup END
