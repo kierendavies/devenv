@@ -31,6 +31,8 @@ set number
 
 set mouse=a
 
+let mapleader=','
+
 nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
@@ -62,6 +64,12 @@ inoremap <silent><expr> <Tab>
   \ pumvisible() ? coc#_select_confirm() :
   \ <SID>check_back_space() ? "\<Tab>" :
   \ coc#refresh()
+
+let g:NERDCreateDefaultMappings = 1
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
 
 let g:pencil#wrapModeDefault = 'soft'
 let g:airline_section_x = '%{PencilMode()}'
