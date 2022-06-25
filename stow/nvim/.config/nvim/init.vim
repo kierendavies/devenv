@@ -47,9 +47,9 @@ endif
 " https://stackoverflow.com/a/5702498
 try
   colorscheme codedark
-  let g:airline_theme = 'codedark'
 catch /^Vim\%((\a\+)\)\=:E185/
 endtry
+let g:airline_theme = 'codedark'
 
 let g:airline_powerline_fonts = 1
 
