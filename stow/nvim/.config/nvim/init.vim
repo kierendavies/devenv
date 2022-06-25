@@ -4,10 +4,11 @@ Plug 'bfrg/vim-jq'
 Plug 'frazrepo/vim-rainbow'
 Plug 'GEverding/vim-hocon'
 Plug 'godlygeek/tabular'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'mfussenegger/nvim-dap'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdcommenter'
-Plug 'preservim/nerdtree'
 Plug 'preservim/vim-markdown'
 Plug 'preservim/vim-pencil'
 Plug 'scalameta/coc-metals'
@@ -71,6 +72,23 @@ let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
+
+lua << endlua
+  require("nvim-tree").setup {
+    git = {
+      ignore = false,
+    },
+    open_on_setup = true,
+    renderer = {
+      highlight_git = true,
+      highlight_opened_files = "name",
+      special_files = {},
+    },
+    update_focused_file = {
+      enable = true,
+    },
+  }
+endlua
 
 let g:jq_highlight_function_calls = 1
 let g:jq_highlight_objects = 1
