@@ -36,7 +36,7 @@ set mouse=a
 set foldmethod=syntax
 set foldlevelstart=10
 
-let mapleader=','
+let mapleader=' '
 
 nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
