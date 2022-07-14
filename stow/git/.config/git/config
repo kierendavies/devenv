@@ -4,6 +4,9 @@
 [diff]
     algorithm=histogram
 
+[init]
+    defaultBranch = main
+
 [pull]
     ff = only
 
