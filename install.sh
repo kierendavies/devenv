@@ -69,6 +69,7 @@ declare -A UBUNTU_DEBS=(
 STOW_PACKAGES=(
     fish
     git
+    ssh
 )
 
 if [ "$DEVENV_ENABLE_I3" = 1 ]; then
